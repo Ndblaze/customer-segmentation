@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Segmentation - InsuredHub.</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        /* Navigation Bar Styling */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #007bff;
+            height: 60px;
+            padding: 0 40px;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        nav .logo {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        nav ul {
+            list-style-type: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+        nav ul li {
+            margin-left: 30px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+        nav ul li a:hover {
+            color: #cce7ff;
+        }
+
+        /* Main Content Styling */
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        h2 {
+            color: #444;
+            margin-top: 30px;
+        }
+        #container {
+            display: flex;
+            justify-content: space-evenly;
+            padding: 20px;
+        }
+
+        /* Form Container */
+        #prediction-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 700px;
+        }
+        label {
+            font-size: 10px;
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: #555;
+            text-transform: capitalize;
+        }
+        input {
+            width: 90%;
+            padding: 10px;
+            font-size: 12px;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        input:focus {
+            border-color: #007bff;
+        }
+        button {
+            grid-column: span 3;
+            padding: 10px 15px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            height: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Result Section */
+        #resultContainer {
+            width: 500px;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 95%;
+            min-height: 300px;
+            max-width: 1000px;
+            color: #333;
+        }
+        #result .progress-bar-container {
+            background-color: #f1f1f1;
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        #result .progress-bar {
+            background-color: #007bff;
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+        #result p {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        #result p.description {
+            font-style: italic;
+            color: #555;
+        }
+        #bulk-fill{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 60px;
+        }
+        #bulk-input{
+            width: 95%;
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 12px;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        #bulk-fill button{
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="logo">InsuredHub</div>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div id="container">
+        <div id="content">
+            <h1>Customer Segmentation</h1>
+            
+            <form id="prediction-form">
+                <!-- First Row -->
+                <div>
+                    <label for="BALANCE">BALANCE</label>
+                    <input type="number" id="BALANCE" placeholder="Enter balance" required>
+                </div>
+                <div>
+                    <label for="BALANCE_FREQUENCY">BALANCE_FREQUENCY</label>
+                    <input type="number" id="BALANCE_FREQUENCY" placeholder="Enter balance frequency" required>
+                </div>
+                <div>
+                    <label for="PURCHASES">PURCHASES</label>
+                    <input type="number" id="PURCHASES" placeholder="Enter purchases" required>
+                </div>
+            
+                <!-- Second Row -->
+                <div>
+                    <label for="ONEOFF_PURCHASES">ONEOFF_PURCHASES</label>
+                    <input type="number" id="ONEOFF_PURCHASES" placeholder="Enter oneoff purchases" required>
+                </div>
+                <div>
+                    <label for="INSTALLMENTS_PURCHASES">INSTALLMENTS_PURCHASES</label>
+                    <input type="number" id="INSTALLMENTS_PURCHASES" placeholder="Enter installments purchases" required>
+                </div>
+                <div>
+                    <label for="CASH_ADVANCE">CASH_ADVANCE</label>
+                    <input type="number" id="CASH_ADVANCE" placeholder="Enter cash advance" required>
+                </div>
+            
+                <!-- Third Row -->
+                <div>
+                    <label for="PURCHASES_FREQUENCY">PURCHASES_FREQUENCY</label>
+                    <input type="number" id="PURCHASES_FREQUENCY" placeholder="Enter purchases frequency" required>
+                </div>
+                <div>
+                    <label for="ONEOFF_PURCHASES_FREQUENCY">ONEOFF_PURCHASES_FREQUENCY</label>
+                    <input type="number" id="ONEOFF_PURCHASES_FREQUENCY" placeholder="Enter oneoff purchases frequency" required>
+                </div>
+                <div>
+                    <label for="PURCHASES_INSTALLMENTS_FREQUENCY">PURCHASES_INSTALLMENTS_FREQUENCY</label>
+                    <input type="number" id="PURCHASES_INSTALLMENTS_FREQUENCY" placeholder="Enter purchases installments frequency" required>
+                </div>
+            
+                <!-- Fourth Row -->
+                <div>
+                    <label for="CASH_ADVANCE_FREQUENCY">CASH_ADVANCE_FREQUENCY</label>
+                    <input type="number" id="CASH_ADVANCE_FREQUENCY" placeholder="Enter cash advance frequency" required>
+                </div>
+                <div>
+                    <label for="CASH_ADVANCE_TRX">CASH_ADVANCE_TRX</label>
+                    <input type="number" id="CASH_ADVANCE_TRX" placeholder="Enter cash advance trx" required>
+                </div>
+                <div>
+                    <label for="PURCHASES_TRX">PURCHASES_TRX</label>
+                    <input type="number" id="PURCHASES_TRX" placeholder="Enter purchases trx" required>
+                </div>
+            
+                <!-- Fifth Row -->
+                <div>
+                    <label for="CREDIT_LIMIT">CREDIT_LIMIT</label>
+                    <input type="number" id="CREDIT_LIMIT" placeholder="Enter credit limit" required>
+                </div>
+                <div>
+                    <label for="PAYMENTS">PAYMENTS</label>
+                    <input type="number" id="PAYMENTS" placeholder="Enter payments" required>
+                </div> 
+                <div>
+                    <label for="MINIMUM_PAYMENTS">MINIMUM_PAYMENTS</label>
+                    <input type="number" id="MINIMUM_PAYMENTS" placeholder="Enter minimum payments" required>
+                </div>
+            
+                <!-- Sixth Row -->
+                <div>
+                    <label for="PRC_FULL_PAYMENT">PRC_FULL_PAYMENT</label>
+                    <input type="number" id="PRC_FULL_PAYMENT" placeholder="Enter prc full payment" required>
+                </div>
+                <div>
+                    <label for="TENURE">TENURE</label>
+                    <input type="number" id="TENURE" placeholder="Enter tenure" required>
+                </div>
+
+                <button type="button" onclick="validateForm()">Submit</button>
+            </form>
+        </div>
+        <div id="resultContainer">
+            <h2>Result</h2>
+            <div id="result">Your prediction will appear here.</div>
+
+            <div id="bulk-fill">
+                <textarea id="bulk-input" placeholder="e.g., 1200, 0.8, 300, ..."></textarea>
+                <button type="button" onclick="fillForm()">Fill Form</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function fillForm() {
+            const bulkInput = document.getElementById("bulk-input").value;
+            const values = bulkInput.split(",").map(v => v.trim());
+            const inputFields = document.querySelectorAll("#prediction-form input:not(#bulk-input)");
+            
+            values.forEach((value, index) => {
+                if (inputFields[index]) {
+                    inputFields[index].value = value;
+                }
+            });
+        }
+
+        // Mapping prediction values to customer types and descriptions
+        const customerTypes = {
+            0: {
+                type: "High Spender",
+                description: "This customer has high purchases (one-off + installment), high payments, and high credit limits."
+            },
+            1: {
+                type: "Cash Advance Seeker",
+                description: "This customer relies heavily on cash advances, has low purchases, and rarely fully pays their balances."
+            },
+            2: {
+                type: "Minimal User",
+                description: "This customer shows low activity across all features, minimal purchases, and low balances."
+            },
+            3: {
+                type: "Installment User",
+                description: "This customer makes moderate purchases with a preference for installment payments, along with moderate balances and payments."
+            }
+        };
+
+        async function submitForm() {
+            const features = Array.from(document.querySelectorAll("#prediction-form input")).map(input => parseFloat(input.value));
+            const response = await fetch("/predict", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ features })
+            });
+
+            const resultDiv = document.getElementById("result");
+
+            if (response.ok) {
+                const { prediction, probabilities } = await response.json();
+
+                const customerType = customerTypes[prediction];
+                const progressBars = probabilities.map((prob, index) => `
+                    <div style="margin-top: 10px;">
+                        <p style="margin: 0;">${customerTypes[index].type}: ${(prob * 100).toFixed(2)}%</p>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: ${(prob * 100).toFixed(2)}%;"></div>
+                        </div>
+                    </div>
+                `).join("");
+
+                resultDiv.innerHTML = `
+                    <p><strong>Prediction:</strong> ${customerType.type}</p>
+                    <p><strong>Description:</strong></p>
+                    <p class="description">${customerType.description}</p>
+                    <p><strong>Probabilities:</strong></p>
+                    ${progressBars}
+                `;
+            } else {
+                const error = await response.json();
+                resultDiv.innerHTML = `<p style="color: red;">Error: ${error.error}</p>`;
+            }
+        }
+
+        function validateForm() {
+            const inputs = document.querySelectorAll("#prediction-form input");
+            let allFilled = true;
+
+            inputs.forEach(input => {
+                if (!input.value) {
+                    allFilled = false;
+                    input.style.borderColor = "red";
+                } else {
+                    input.style.borderColor = "";
+                }
+            });
+
+            if (allFilled) {
+                submitForm();
+            } else {
+                alert("Please fill out all fields before submitting.");
+            }
+        }
+    </script>
+</body>
+</html>
+
+            
+            
+    
