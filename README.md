@@ -18,6 +18,7 @@ The dataset comprises **17 features** that describe financial and behavioral att
 - **PURCHASES_FREQUENCY**: Frequency of purchases.
 - **PRC_FULL_PAYMENT**: Proportion of months the customer fully paid their balance.
 - **TENURE**: Number of months the account has been active.
+- etc.
   
 ### Target Column
 The target column, **Cluster**, categorizes customers into four predefined groups:
